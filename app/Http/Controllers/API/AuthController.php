@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Constants\ErrorCode as EC;
+use App\Constants\ErrorMessage as EM;
 
 class AuthController extends Controller
 {
@@ -22,9 +24,16 @@ class AuthController extends Controller
         }
 
         if ($token = Auth::guard('api')->attempt(['email' => $request->email, 'password' => $request->password, 'status' => 1])) {
-            return $token;
+            return response()->json([
+                        'success' => true,
+                        'user'    => Auth::guard('api')->user(),    
+                        'token'   => $token   
+                    ], 200);
         } else {
-            return 'gagal';
+            return [
+                "meta" => ['code' => EC::HTTP_BAD_GATEWAY, 'message' => EM::HTTP_INTERNAL_SERVER_ERROR],
+                "data" => []
+            ];
         }
 
     }

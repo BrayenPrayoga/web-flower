@@ -13,6 +13,25 @@ class MasterBanner extends Model
     
     protected $guarded = [];
 
+    public static function getModel(){
+        try{
+            $banner = MasterBanner::where('status', 1)->get();
+
+            $response = [];
+            foreach($banner as $item){
+                $data['id'] = $item->id;
+                $data['keterangan'] = $item->keterangan;
+                $data['gambar'] = asset('img_banner/'.$item->gambar);
+                $data['created_at'] = $item->created_at;
+
+                array_push($response, $data);
+            }
+
+            return ['message' => 'success', 'data' => $response];
+        }catch(Exception $e){
+            return ['message' => 'error','data' => $e];
+        }
+    }
     
     public static function storeModel($request){
         try{

@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -106,6 +107,32 @@ class User extends Authenticatable implements JWTSubject
             User::where('id', $id)->delete();
             
             return ['message' => 'success', 'data' => 'Berhasil Hapus'];
+        }catch(Exception $e){
+            return ['message' => 'error','data' => $e];
+        }
+    }
+
+    
+    public static function updateProfilModel($request){
+        try{
+            date_default_timezone_set('Asia/Jakarta');
+
+            $request->validate([
+                'nama'      =>'required',
+                'email'     =>'required',
+            ]);
+
+            $password = User::where('id', auth::user()->id)->first();
+
+            $data = [
+                'name'          => $request->nama,
+                'email'         => $request->email,
+                'password'      => ($request->password) ? Hash::make($request->password) : $password->password,
+                'updated_at'    => date('Y-m-d H:i:s')
+            ];
+            User::where('id', auth::user()->id)->update($data);
+
+            return ['message' => 'success', 'data' => auth::user()];
         }catch(Exception $e){
             return ['message' => 'error','data' => $e];
         }

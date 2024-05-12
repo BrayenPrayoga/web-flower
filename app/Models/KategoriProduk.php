@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use PhpParser\Node\Stmt\Foreach_;
 
 class KategoriProduk extends Model
 {
@@ -12,6 +13,38 @@ class KategoriProduk extends Model
     protected $table = 'kategori_produk';
     
     protected $guarded = [];
+
+    public static function getModel(){
+        try{
+            $kategori = KategoriProduk::with('RelasiProduk')->get();
+
+            $response = [];
+            foreach($kategori as $item){
+                $data['id'] = $item->id;
+                $data['kategori'] = $item->kategori;
+
+                foreach($item->RelasiProduk as $val){
+                    $produk['produk'] = $val->produk;
+                    $produk['gambar'] = asset('img_produk/'.$val->gambar);
+                    $produk['deskripsi'] = $val->deskripsi;
+                    $produk['harga'] = $val->harga;
+                    $produk['stok'] = $val->stok;
+
+                    $data['produk'][] = $produk;
+                }
+                array_push($response, $data);
+                $data['produk'] = [];
+            }
+
+            return ['message' => 'success', 'data' => $response];
+        }catch(Exception $e){
+            return ['message' => 'error','data' => $e];
+        }
+    }
+
+    public function RelasiProduk(){
+        return $this->hasMany(Produk::class, 'id_kategori','id');
+    }
     
     public static function storeModel($request){
         try{

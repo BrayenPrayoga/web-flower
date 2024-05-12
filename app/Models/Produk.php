@@ -13,6 +13,30 @@ class Produk extends Model
     
     protected $guarded = [];
 
+    public static function getModel(){
+        try{
+            $id_kategori = isset($_GET['id_kategori']) ? $_GET['id_kategori'] : null;
+            $produk = Produk::when($id_kategori, function($q, $id_kategori){
+                $q->where('id_kategori', $id_kategori);
+            })->get();
+
+            $response = [];
+            foreach($produk as $item){
+                $data['produk'] = $item->produk;
+                $data['gambar'] = asset('img_produk/'.$item->gambar);
+                $data['deskripsi'] = $item->deskripsi;
+                $data['harga'] = $item->harga;
+                $data['stok'] = $item->stok;
+
+                array_push($response, $data);
+            }
+
+            return ['message' => 'success', 'data' => $response];
+        }catch(Exception $e){
+            return ['message' => 'error','data' => $e];
+        }
+    }
+
     public function RelasiKategori(){
         return $this->belongsTo(KategoriProduk::class,'id_kategori','id')->withDefault(['kategori'=>'']);
     }

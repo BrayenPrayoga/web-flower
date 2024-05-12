@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Constants\ErrorCode as EC;
@@ -11,7 +12,7 @@ class UsersController extends Controller
 {
     //
     function __construct(){
-        $this->middleware('auth');
+        $this->middleware('auth:api',['except'=>['store']]);
     }
 
     public function index(){
@@ -23,19 +24,19 @@ class UsersController extends Controller
 
     public function store(Request $request){
         $response = User::storeModel($request);
-        
+
         if($response['message'] == 'success'){
             return responseData($response['data']);
         }else{
             return [
                 "meta" => ['code' => EC::HTTP_BAD_GATEWAY, 'message' => EM::HTTP_INTERNAL_SERVER_ERROR],
                 "data" => $response['data']
-            ];;
+            ];
         }
     }
     
     public function update(Request $request){
-        $response = User::updateModel($request);
+        $response = User::updateProfilModel($request);
         
         if($response['message'] == 'success'){
             return responseData($response['data']);
@@ -43,20 +44,7 @@ class UsersController extends Controller
             return [
                 "meta" => ['code' => EC::HTTP_BAD_GATEWAY, 'message' => EM::HTTP_INTERNAL_SERVER_ERROR],
                 "data" => $response['data']
-            ];;
-        }
-    }
-
-    public function delete($id){
-        $response = User::deleteModal($id);
-        
-        if($response['message'] == 'success'){
-            return responseData($response['data']);
-        }else{
-            return [
-                "meta" => ['code' => EC::HTTP_BAD_GATEWAY, 'message' => EM::HTTP_INTERNAL_SERVER_ERROR],
-                "data" => $response['data']
-            ];;
+            ];
         }
     }
 }

@@ -52,7 +52,7 @@
                                         <td> {{ $item->stok }} </td>
                                         <td>
                                             <button type="button" data-item="{{ json_encode($item) }}" onclick="edit(this)" class="btn btn-primary btn-rounded btn-sm"><i class="mdi mdi-border-color"></i></button>
-                                            <button type="button" class="btn btn-warning btn-rounded btn-sm"><i class="mdi mdi-information"></i></button>
+                                            <button type="button" data-item="{{ json_encode($item) }}" onclick="view(this)" class="btn btn-warning btn-rounded btn-sm"><i class="mdi mdi-information"></i></button>
                                             <button type="button" onclick="hapus({{ $item->id }})" class="btn btn-danger btn-rounded btn-sm"><i class="mdi mdi-delete"></i></button>
                                         </td>
                                     </tr>
@@ -168,6 +168,55 @@
             </div>
         </div>
     </div>
+    
+    <div class="modal fade" id="ViewModal" tabindex="-1" aria-labelledby="ViewModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ViewModalLabel">View Kategori Produk</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="POST" action="{{ route('produk.update') }}" enctype="multipart/form-data">
+                @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="kategori">Kategori</label>
+                            <select class="form-control" id="v_id_kategori" name="id_kategori" required>
+                                @foreach($kategori as $item)
+                                <option value="{{ $item->id }}">{{ $item->kategori }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="produk">Produk</label>
+                            <input type="text" class="form-control" id="v_produk" name="produk" placeholder="..." required>
+                        </div>
+                        <div class="form-group">
+                            <label for="gambar">Gambar</label>
+                            <a href="#" id="v_gambar_sebelumnya" target="_blank" class="btn btn-sm btn-dark btn-lg btn-block">
+                                <i class="mdi mdi-folder-image"></i>
+                            </a>
+                        </div>
+                        <div class="form-group">
+                            <label for="deskripsi">Deskripsi</label>
+                            <input type="text" class="form-control" id="v_deskripsi" name="deskripsi" placeholder="..." required>
+                        </div>
+                        <div class="form-group">
+                            <label for="harga">Harga</label>
+                            <input type="text" class="form-control" id="v_harga" name="harga" placeholder="..." required>
+                        </div>
+                        <div class="form-group">
+                            <label for="stok">Stok</label>
+                            <input type="number" class="form-control" id="v_stok" name="stok" placeholder="..." required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">TUTUP</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('javascript')
@@ -178,7 +227,7 @@
 
     function edit(obj){
         var item = $(obj).data('item');
-        console.log(item);
+
         $('#e_id').val(item.id);
         $('#e_id_kategori').val(item.id_kategori);
         $('#e_produk').val(item.produk);
@@ -188,6 +237,19 @@
         $('#e_stok').val(item.stok);
 
         $('#EditModal').modal('show');
+    }
+
+    function view(obj){
+        var item = $(obj).data('item');
+
+        $('#v_id_kategori').val(item.id_kategori);
+        $('#v_produk').val(item.produk);
+        $('#v_gambar_sebelumnya').attr('href', '{{ asset("img_produk") }}/'+item.gambar);
+        $('#v_deskripsi').val(item.deskripsi);
+        $('#v_harga').val(item.harga);
+        $('#v_stok').val(item.stok);
+
+        $('#ViewModal').modal('show');
     }
 
     function hapus(id) {

@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('master_kupon', function (Blueprint $table) {
             $table->id();
-            $table->string('nama')->nullable();
-            $table->string('kode')->nullable();
+            $table->string('nama', 50)->nullable();
+            $table->string('kode', 20)->nullable();
             $table->decimal('kredit',12,2)->nullable();
-            $table->string('tanggal_mulai')->nullable();
-            $table->string('tanggal_berakhir')->nullable();
+            $table->dateTime('tanggal_mulai')->nullable();
+            $table->dateTime('tanggal_berakhir')->nullable();
             $table->integer('status')->nullable();
             $table->timestamps();
         });

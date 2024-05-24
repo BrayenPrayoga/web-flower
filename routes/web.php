@@ -8,6 +8,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\KategoriProdukController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProfilController;
+use App\Http\Controllers\MasterKuponController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,6 +53,14 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::post('store', [MasterBannerController::class,'store'])->name('store');
         Route::post('update', [MasterBannerController::class,'update'])->name('update');
         Route::get('delete/{id}', [MasterBannerController::class,'delete'])->name('delete');
+    });
+    
+    // Master Kupon
+    Route::group(['namespace'=>'master-kupon','prefix'=>'master-kupon','as'=>'master-kupon.'], function(){
+        Route::get('/', [MasterKuponController::class,'index'])->name('index');
+        Route::post('store', [MasterKuponController::class,'store'])->name('store');
+        Route::post('update', [MasterKuponController::class,'update'])->name('update');
+        Route::get('delete/{id}', [MasterKuponController::class,'delete'])->name('delete');
     });
     
     // Kategori Produk

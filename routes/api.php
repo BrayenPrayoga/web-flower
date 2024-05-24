@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\KategoriProdukController;
 use App\Http\Controllers\API\MasterBannerController;
+use App\Http\Controllers\API\MasterKuponController;
 use App\Http\Controllers\API\ProdukController;
 use App\Http\Controllers\API\UsersController;
 
@@ -44,6 +45,10 @@ Route::middleware(['auth:api'])->group(function () {
     
     Route::group(['prefix'=>'produk','as'=>'produk.'], function(){
         Route::get('get-produk', [ProdukController::class,'index'])->name('index');
+    });
+    
+    Route::group(['prefix'=>'kupon','as'=>'kupon.'], function(){
+        Route::get('cek-kupon', [MasterKuponController::class,'index'])->name('index');
     });
 
 });

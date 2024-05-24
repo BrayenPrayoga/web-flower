@@ -27,10 +27,16 @@
                 <i class="mdi mdi-account menu-icon"></i>
             </a>
         </li>
-        <li class="nav-item @if(Request::segment(1) == 'banner') active @endif">
+        <li class="nav-item @if(Request::segment(1) == 'master-banner') active @endif">
             <a class="nav-link" href="{{ route('master-banner.index') }}">
                 <span class="menu-title">Master Banner</span>
                 <i class="mdi mdi-bullhorn menu-icon"></i>
+            </a>
+        </li>
+        <li class="nav-item @if(Request::segment(1) == 'master-kupon') active @endif">
+            <a class="nav-link" href="{{ route('master-kupon.index') }}">
+                <span class="menu-title">Master Kupon</span>
+                <i class="mdi mdi-ticket menu-icon"></i>
             </a>
         </li>
         <li class="nav-item @if(Request::segment(1) == 'kategori') active @endif">

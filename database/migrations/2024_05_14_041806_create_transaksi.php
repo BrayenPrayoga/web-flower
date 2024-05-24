@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('transaksi', function (Blueprint $table) {
             $table->id();
             $table->integer('id_users')->nullable();
-            $table->string('no_transaksi')->nullable();
+            $table->string('no_transaksi', 30)->nullable();
             $table->integer('status_transaksi')->nullable();
             $table->dateTime('tanggal_transaksi')->nullable();
             $table->decimal('total_harga',12,2)->nullable();

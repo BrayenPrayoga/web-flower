@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('konfirmasi_pembayaran', function (Blueprint $table) {
+        Schema::create('pembayaran', function (Blueprint $table) {
             $table->id();
+            $table->integer('id_users')->nullable();
             $table->string('no_order')->nullable();
             $table->string('bank_asal')->nullable();
             $table->string('bank_tujuan')->nullable();
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('konfirmasi_pembayaran');
+        Schema::dropIfExists('pembayaran');
     }
 };

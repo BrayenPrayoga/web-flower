@@ -54,9 +54,9 @@ class User extends Authenticatable implements JWTSubject
             date_default_timezone_set('Asia/Jakarta');
 
             $request->validate([
-                'nama'      =>'required',
-                'email'     =>'required',
-                'password'  =>'required',
+                'nama'      =>'required|max:50',
+                'email'     =>'required|max:50',
+                'password'  =>'required|max:255',
                 'role'      =>'required'
             ]);
 
@@ -80,8 +80,8 @@ class User extends Authenticatable implements JWTSubject
             date_default_timezone_set('Asia/Jakarta');
 
             $request->validate([
-                'nama'      =>'required',
-                'email'     =>'required',
+                'nama'      =>'required|max:50',
+                'email'     =>'required|max:50',
                 'role'      =>'required'
             ]);
 
@@ -111,15 +111,14 @@ class User extends Authenticatable implements JWTSubject
             return ['message' => 'error','data' => $e];
         }
     }
-
     
     public static function updateProfilModel($request){
         try{
             date_default_timezone_set('Asia/Jakarta');
 
             $request->validate([
-                'nama'      =>'required',
-                'email'     =>'required',
+                'nama'      =>'required|max:50',
+                'email'     =>'required|max:50',
             ]);
 
             $password = User::where('id', auth::user()->id)->first();

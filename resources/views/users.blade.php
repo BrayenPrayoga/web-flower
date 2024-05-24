@@ -85,15 +85,15 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="nama">Nama</label>
-                            <input type="text" class="form-control" id="nama" name="nama" placeholder="..." required>
+                            <input type="text" class="form-control" id="nama" name="nama" placeholder="..." maxlength="50" required>
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="..." required>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="..." maxlength="50" required>
                         </div>
                         <div class="form-group">
                             <label for="email">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" autocomplete="off" placeholder="..." required>
+                            <input type="password" class="form-control" id="password" name="password" autocomplete="off" maxlength="255" placeholder="..." required>
                         </div>
                         <div class="form-group">
                             <label for="email">Role</label>
@@ -125,15 +125,15 @@
                         <input type="hidden" id="e_id" name="id">
                         <div class="form-group">
                             <label for="nama">Nama</label>
-                            <input type="text" class="form-control" id="e_nama" name="nama" placeholder="..." required>
+                            <input type="text" class="form-control" id="e_nama" name="nama" placeholder="..." maxlength="50" required>
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="email" class="form-control" id="e_email" name="email" placeholder="..." required>
+                            <input type="email" class="form-control" id="e_email" name="email" placeholder="..." maxlength="50" required>
                         </div>
                         <div class="form-group">
                             <label for="email">Password</label>
-                            <input type="password" class="form-control" id="e_password" name="password" autocomplete="off" placeholder="...">
+                            <input type="password" class="form-control" id="e_password" name="password" autocomplete="off" maxlength="255" placeholder="...">
                         </div>
                         <div class="form-group">
                             <label for="email">Role</label>

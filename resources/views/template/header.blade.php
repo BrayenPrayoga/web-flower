@@ -11,7 +11,7 @@
         </button>
         <ul class="navbar-nav navbar-nav-right">
             <li class="nav-item nav-profile">
-                <a class="nav-link" id="profileDropdown" href="#" data-bs-toggle="dropdown"
+                <a class="nav-link" id="profileDropdown" href="{{ route('profil.index') }}"
                     aria-expanded="false">
                     <div class="nav-profile-img">
                         <img src="{{ asset('assets/images/faces/person.jpg') }}" alt="image">

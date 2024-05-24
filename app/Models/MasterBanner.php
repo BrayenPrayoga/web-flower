@@ -38,8 +38,8 @@ class MasterBanner extends Model
             date_default_timezone_set('Asia/Jakarta');
 
             $request->validate([
-                'keterangan'    =>'required',
-                'gambar'        =>'required',
+                'keterangan'    =>'required|max:255',
+                'gambar'        =>'required|mimes:jpeg,jpg,png',
                 'status'        =>'required'
             ]);
 
@@ -71,7 +71,8 @@ class MasterBanner extends Model
             date_default_timezone_set('Asia/Jakarta');
 
             $request->validate([
-                'keterangan'    =>'required',
+                'keterangan'    =>'required|max:255',
+                'gambar'        =>'mimes:jpeg,jpg,png',
                 'status'        =>'required'
             ]);
 

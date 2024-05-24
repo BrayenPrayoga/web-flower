@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('produk', function (Blueprint $table) {
             $table->id();
             $table->integer('id_kategori')->nullable();
-            $table->string('produk')->nullable();
+            $table->string('produk', 50)->nullable();
             $table->text('gambar')->nullable();
-            $table->string('deskripsi')->nullable();
-            $table->string('harga')->nullable();
+            $table->string('deskripsi', 255)->nullable();
+            $table->string('harga', 20)->nullable();
             $table->integer('stok')->nullable();
             $table->timestamps();
         });

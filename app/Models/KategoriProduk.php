@@ -51,7 +51,7 @@ class KategoriProduk extends Model
             date_default_timezone_set('Asia/Jakarta');
 
             $request->validate([
-                'kategori'    =>'required'
+                'kategori'    =>'required|max:50'
             ]);
 
             $data = [
@@ -71,7 +71,7 @@ class KategoriProduk extends Model
             date_default_timezone_set('Asia/Jakarta');
 
             $request->validate([
-                'kategori'    =>'required'
+                'kategori'    =>'required|max:50'
             ]);
 
             $data = [

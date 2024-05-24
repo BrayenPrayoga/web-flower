@@ -46,12 +46,12 @@ class Produk extends Model
             date_default_timezone_set('Asia/Jakarta');
 
             $request->validate([
-                'id_kategori' =>'required',
-                'produk'    =>'required',
-                'gambar'    =>'required',
-                'deskripsi'    =>'required',
-                'harga'    =>'required',
-                'stok'    =>'required'
+                'id_kategori'   =>'required',
+                'produk'        =>'required|max:50',
+                'gambar'        =>'required|mimes:jpeg,jpg,png',
+                'deskripsi'     =>'required|max:255',
+                'harga'         =>'required|max:20',
+                'stok'          =>'required'
             ]);
 
             if($request->hasFile('gambar')){
@@ -85,11 +85,12 @@ class Produk extends Model
             date_default_timezone_set('Asia/Jakarta');
 
             $request->validate([
-                'id_kategori' =>'required',
-                'produk'    =>'required',
-                'deskripsi' =>'required',
-                'harga'     =>'required',
-                'stok'      =>'required'
+                'id_kategori'   =>'required',
+                'produk'        =>'required|max:50',
+                'gambar'        =>'mimes:jpeg,jpg,png',
+                'deskripsi'     =>'required|max:255',
+                'harga'         =>'required|max:20',
+                'stok'          =>'required'
             ]);
 
             $produk = Produk::where('id', $request->id)->first();

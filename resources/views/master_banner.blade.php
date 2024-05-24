@@ -86,7 +86,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="keterangan">Keterangan</label>
-                            <input type="text" class="form-control" id="keterangan" name="keterangan" placeholder="..." required>
+                            <input type="text" class="form-control" id="keterangan" name="keterangan" maxlength="255" placeholder="..." required>
                         </div>
                         <div class="form-group">
                             <label for="gambar">Gambar</label>
@@ -122,7 +122,7 @@
                         <input type="hidden" id="e_id" name="id">
                         <div class="form-group">
                             <label for="keterangan">Keterangan</label>
-                            <input type="text" class="form-control" id="e_keterangan" name="keterangan" placeholder="..." required>
+                            <input type="text" class="form-control" id="e_keterangan" name="keterangan" maxlength="255" placeholder="..." required>
                         </div>
                         <div class="form-group">
                             <label for="gambar">

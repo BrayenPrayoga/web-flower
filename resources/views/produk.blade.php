@@ -87,7 +87,7 @@
                         </div>
                         <div class="form-group">
                             <label for="produk">Produk</label>
-                            <input type="text" class="form-control" id="produk" name="produk" placeholder="..." required>
+                            <input type="text" class="form-control" id="produk" name="produk" maxlength="50" placeholder="..." required>
                         </div>
                         <div class="form-group">
                             <label for="gambar">Gambar</label>
@@ -95,11 +95,11 @@
                         </div>
                         <div class="form-group">
                             <label for="deskripsi">Deskripsi</label>
-                            <input type="text" class="form-control" id="deskripsi" name="deskripsi" placeholder="..." required>
+                            <input type="text" class="form-control" id="deskripsi" name="deskripsi" maxlength="255" placeholder="..." required>
                         </div>
                         <div class="form-group">
                             <label for="harga">Harga</label>
-                            <input type="text" class="form-control" id="harga" name="harga" placeholder="..." required>
+                            <input type="text" class="form-control" id="harga" name="harga" maxlength="20" placeholder="..." required>
                         </div>
                         <div class="form-group">
                             <label for="stok">Stok</label>
@@ -136,7 +136,7 @@
                         </div>
                         <div class="form-group">
                             <label for="produk">Produk</label>
-                            <input type="text" class="form-control" id="e_produk" name="produk" placeholder="..." required>
+                            <input type="text" class="form-control" id="e_produk" name="produk" maxlength="50" placeholder="..." required>
                         </div>
                         <div class="form-group">
                             <label for="gambar">
@@ -149,11 +149,11 @@
                         </div>
                         <div class="form-group">
                             <label for="deskripsi">Deskripsi</label>
-                            <input type="text" class="form-control" id="e_deskripsi" name="deskripsi" placeholder="..." required>
+                            <input type="text" class="form-control" id="e_deskripsi" name="deskripsi" maxlength="255" placeholder="..." required>
                         </div>
                         <div class="form-group">
                             <label for="harga">Harga</label>
-                            <input type="text" class="form-control" id="e_harga" name="harga" placeholder="..." required>
+                            <input type="text" class="form-control" id="e_harga" name="harga" maxlength="20" placeholder="..." required>
                         </div>
                         <div class="form-group">
                             <label for="stok">Stok</label>

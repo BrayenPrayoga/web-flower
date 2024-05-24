@@ -73,7 +73,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="kategori">Kategori</label>
-                            <input type="text" class="form-control" id="kategori" name="kategori" placeholder="..." required>
+                            <input type="text" class="form-control" id="kategori" name="kategori" maxlength="50" placeholder="..." required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -98,7 +98,7 @@
                         <input type="hidden" id="e_id" name="id">
                         <div class="form-group">
                             <label for="kategori">Kategori</label>
-                            <input type="text" class="form-control" id="e_kategori" name="kategori" placeholder="..." required>
+                            <input type="text" class="form-control" id="e_kategori" name="kategori" maxlength="50" placeholder="..." required>
                         </div>
                     </div>
                     <div class="modal-footer">

@@ -7,6 +7,7 @@ use App\Http\Controllers\MasterBannerController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\KategoriProdukController;
 use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\ProfilController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,12 @@ Route::get('logout', [AuthController::class,'logout'])->name('logout');
 Route::middleware(['auth:admin'])->group(function () {
     Route::group(['namespace'=>'dashboard','prefix'=>'dashboard','as'=>'dashboard.'], function(){
         Route::get('/', [DashboardController::class,'index'])->name('index');
+    });
+
+    // Profil
+    Route::group(['namespace'=>'profil','prefix'=>'profil','as'=>'profil.'], function(){
+        Route::get('/', [ProfilController::class,'index'])->name('index');
+        Route::post('update', [ProfilController::class,'update'])->name('update');
     });
 
     // Master User

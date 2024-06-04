@@ -21,7 +21,7 @@ class MasterBanner extends Model
             foreach($banner as $item){
                 $data['id'] = $item->id;
                 $data['keterangan'] = $item->keterangan;
-                $data['gambar'] = asset('img_banner/'.$item->gambar);
+                $data['gambar'] = 'img_banner/'.$item->gambar;
                 $data['created_at'] = $item->created_at;
 
                 array_push($response, $data);

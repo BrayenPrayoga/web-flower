@@ -23,7 +23,7 @@ class Produk extends Model
             $response = [];
             foreach($produk as $item){
                 $data['produk'] = $item->produk;
-                $data['gambar'] = asset('img_produk/'.$item->gambar);
+                $data['gambar'] = 'img_produk/'.$item->gambar;
                 $data['deskripsi'] = $item->deskripsi;
                 $data['harga'] = $item->harga;
                 $data['stok'] = $item->stok;

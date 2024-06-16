@@ -25,7 +25,7 @@ class KategoriProduk extends Model
 
                 foreach($item->RelasiProduk as $val){
                     $produk['produk'] = $val->produk;
-                    $produk['gambar'] = asset('img_produk/'.$val->gambar);
+                    $produk['gambar'] = 'img_produk/'.$val->gambar;
                     $produk['deskripsi'] = $val->deskripsi;
                     $produk['harga'] = $val->harga;
                     $produk['stok'] = $val->stok;

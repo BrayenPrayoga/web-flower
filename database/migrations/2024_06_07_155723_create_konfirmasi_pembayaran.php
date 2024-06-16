@@ -11,14 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transaksi', function (Blueprint $table) {
+        Schema::create('konfirmasi_pembayaran', function (Blueprint $table) {
             $table->id();
             $table->integer('id_users')->nullable();
             $table->string('no_order', 30)->nullable();
-            $table->integer('status_transaksi')->nullable();
-            $table->dateTime('tanggal_transaksi')->nullable();
-            $table->decimal('total_harga_transaksi',12,2)->nullable();
-            $table->integer('id_kupon')->nullable();
+            $table->string('bank_asal', 100)->nullable();
+            $table->string('bank_tujuan', 100)->nullable();
+            $table->string('metode', 50)->nullable();
+            $table->decimal('nominal',12,2)->nullable();
+            $table->dateTime('tanggal')->nullable();
+            $table->text('bukti')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transaksi');
+        Schema::dropIfExists('konfirmasi_pembayaran');
     }
 };

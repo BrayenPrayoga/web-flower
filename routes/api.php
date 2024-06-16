@@ -5,9 +5,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\KategoriProdukController;
+use App\Http\Controllers\API\KonfirmasiPembayaranController;
 use App\Http\Controllers\API\MasterBannerController;
 use App\Http\Controllers\API\MasterKuponController;
 use App\Http\Controllers\API\ProdukController;
+use App\Http\Controllers\API\TransaksiController;
 use App\Http\Controllers\API\UsersController;
 
 /*
@@ -49,6 +51,15 @@ Route::middleware(['auth:api'])->group(function () {
     
     Route::group(['prefix'=>'kupon','as'=>'kupon.'], function(){
         Route::get('cek-kupon', [MasterKuponController::class,'index'])->name('index');
+    });
+    
+    Route::group(['prefix'=>'konfirmasi-pembarayan','as'=>'konfirmasi-pembarayan.'], function(){
+        Route::get('get-konfirmasi-pembarayan', [KonfirmasiPembayaranController::class,'index'])->name('index');
+        Route::post('store', [KonfirmasiPembayaranController::class,'store'])->name('store');
+    });
+    
+    Route::group(['prefix'=>'transaksi','as'=>'transaksi.'], function(){
+        Route::post('store', [TransaksiController::class,'store'])->name('store');
     });
 
 });

@@ -51,8 +51,14 @@
                 <i class="mdi mdi-flower menu-icon"></i>
             </a>
         </li>
+        <li class="nav-item @if(Request::segment(1) == 'transaksi') active @endif">
+            <a class="nav-link" href="{{ route('transaksi.index') }}">
+                <span class="menu-title">Transaksi</span>
+                <i class="mdi mdi-cart menu-icon"></i>
+            </a>
+        </li>
         <li class="nav-item @if(Request::segment(1) == 'konfirm-pembayaran') active @endif">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{{ route('konfirmasi-pembarayan.index') }}">
                 <span class="menu-title">Konfirmasi Pembayaran</span>
                 <i class="mdi mdi-pen menu-icon"></i>
             </a>

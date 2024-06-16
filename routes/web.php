@@ -6,9 +6,11 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MasterBannerController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\KategoriProdukController;
+use App\Http\Controllers\KonfirmasiPembayaranController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\MasterKuponController;
+use App\Http\Controllers\TransaksiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,18 +31,18 @@ Route::post('login', [AuthController::class,'login'])->name('login');
 Route::get('logout', [AuthController::class,'logout'])->name('logout');
 
 Route::middleware(['auth:admin'])->group(function () {
-    Route::group(['namespace'=>'dashboard','prefix'=>'dashboard','as'=>'dashboard.'], function(){
+    Route::group(['prefix'=>'dashboard','as'=>'dashboard.'], function(){
         Route::get('/', [DashboardController::class,'index'])->name('index');
     });
 
     // Profil
-    Route::group(['namespace'=>'profil','prefix'=>'profil','as'=>'profil.'], function(){
+    Route::group(['prefix'=>'profil','as'=>'profil.'], function(){
         Route::get('/', [ProfilController::class,'index'])->name('index');
         Route::post('update', [ProfilController::class,'update'])->name('update');
     });
 
     // Master User
-    Route::group(['namespace'=>'users','prefix'=>'users','as'=>'users.'], function(){
+    Route::group(['prefix'=>'users','as'=>'users.'], function(){
         Route::get('/', [UsersController::class,'index'])->name('index');
         Route::post('store', [UsersController::class,'store'])->name('store');
         Route::post('update', [UsersController::class,'update'])->name('update');
@@ -48,7 +50,7 @@ Route::middleware(['auth:admin'])->group(function () {
     });
     
     // Master Banner
-    Route::group(['namespace'=>'master-banner','prefix'=>'master-banner','as'=>'master-banner.'], function(){
+    Route::group(['prefix'=>'master-banner','as'=>'master-banner.'], function(){
         Route::get('/', [MasterBannerController::class,'index'])->name('index');
         Route::post('store', [MasterBannerController::class,'store'])->name('store');
         Route::post('update', [MasterBannerController::class,'update'])->name('update');
@@ -56,7 +58,7 @@ Route::middleware(['auth:admin'])->group(function () {
     });
     
     // Master Kupon
-    Route::group(['namespace'=>'master-kupon','prefix'=>'master-kupon','as'=>'master-kupon.'], function(){
+    Route::group(['prefix'=>'master-kupon','as'=>'master-kupon.'], function(){
         Route::get('/', [MasterKuponController::class,'index'])->name('index');
         Route::post('store', [MasterKuponController::class,'store'])->name('store');
         Route::post('update', [MasterKuponController::class,'update'])->name('update');
@@ -64,7 +66,7 @@ Route::middleware(['auth:admin'])->group(function () {
     });
     
     // Kategori Produk
-    Route::group(['namespace'=>'kategori','prefix'=>'kategori','as'=>'kategori.'], function(){
+    Route::group(['prefix'=>'kategori','as'=>'kategori.'], function(){
         Route::get('/', [KategoriProdukController::class,'index'])->name('index');
         Route::post('store', [KategoriProdukController::class,'store'])->name('store');
         Route::post('update', [KategoriProdukController::class,'update'])->name('update');
@@ -72,10 +74,23 @@ Route::middleware(['auth:admin'])->group(function () {
     });
     
     // Produk
-    Route::group(['namespace'=>'produk','prefix'=>'produk','as'=>'produk.'], function(){
+    Route::group(['prefix'=>'produk','as'=>'produk.'], function(){
         Route::get('/', [ProdukController::class,'index'])->name('index');
         Route::post('store', [ProdukController::class,'store'])->name('store');
         Route::post('update', [ProdukController::class,'update'])->name('update');
         Route::get('delete/{id}', [ProdukController::class,'delete'])->name('delete');
+    });
+    
+    // Transaksi
+    Route::group(['prefix'=>'transaksi','as'=>'transaksi.'], function(){
+        Route::get('/', [TransaksiController::class,'index'])->name('index');
+        Route::post('store', [TransaksiController::class,'store'])->name('store');
+        Route::post('update', [TransaksiController::class,'update'])->name('update');
+    });
+    
+    // Konfirmasi Pembayaran
+    Route::group(['prefix'=>'konfirmasi-pembarayan','as'=>'konfirmasi-pembarayan.'], function(){
+        Route::get('/', [KonfirmasiPembayaranController::class,'index'])->name('index');
+        Route::post('store', [KonfirmasiPembayaranController::class,'store'])->name('store');
     });
 });

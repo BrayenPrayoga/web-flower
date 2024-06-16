@@ -5,7 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Purple Admin</title>
+    <title>Flower</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="{{ asset('assets/vendors/mdi/css/materialdesignicons.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendors/css/vendor.bundle.base.css') }}">
@@ -40,7 +40,7 @@
                     <footer class="footer">
                         <div class="container-fluid d-flex justify-content-between">
                             <span class="text-muted d-block text-center text-sm-start d-sm-inline-block">Copyright ©
-                                Brayen Prayoga 2024</span>
+                                2024</span>
                         </div>
                     </footer>
                 </div>

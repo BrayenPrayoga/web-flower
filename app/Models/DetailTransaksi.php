@@ -13,4 +13,8 @@ class DetailTransaksi extends Model
     protected $table = 'detail_transaksi';
     
     protected $guarded = [];
+    
+    public function RelasiProduk(){
+        return $this->belongsTo(Produk::class,'id_produk','id')->withDefault(['produk'=>'']);
+    }
 }

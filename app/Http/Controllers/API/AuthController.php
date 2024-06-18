@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Constants\ErrorCode as EC;
 use App\Constants\ErrorMessage as EM;
+use App\Models\User;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AktivasiLogin;
 
 class AuthController extends Controller
 {
@@ -48,6 +51,31 @@ class AuthController extends Controller
                 'success' => true,
                 'message' => 'Logout Berhasil!',  
             ]);
+        }
+    }
+
+    public function kirimLupaPassword(){
+        $email = $_GET['email'];
+        $cek_user = User::where('email', $email)->get();
+
+        if(count($cek_user) > 0){
+            //send email
+            $user = User::where('email', $email)->first();
+            $event = new \stdClass();
+
+            $event->senderEmail = $email;
+            $event->email = $email; 
+            $event->senderName = 'Zaida Florist';
+            $event->subject = 'Lupa Password';
+            $event->message = '';  
+            $event->name = $user->name;
+            $event->tanggal = date('Y-m-d H:i:s');
+            $event->id_users = $user->id;
+            
+            Mail::send((new AktivasiLogin($event))->delay(30));
+            return true;
+        }else{
+            return false;
         }
     }
   

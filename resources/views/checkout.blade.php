@@ -10,14 +10,14 @@
             <h3 class="page-title">
                 <span class="page-title-icon bg-gradient-primary text-white me-2">
                     <i class="mdi mdi-bullhorn"></i>
-                </span> Transaksi
+                </span> Checkout
             </h3>
         </div>
         <div class="row">
             <div class="col-12 grid-margin">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">List Transaksi</h4>
+                        <h4 class="card-title">List Checkout</h4>
                         @if (count($errors) > 0)
                             @foreach ($errors->all() as $error)
                             <div class="alert alert-danger alert-dismissible">
@@ -31,36 +31,18 @@
                                 <thead>
                                     <tr>
                                         <th> No. </th>
-                                        <th> No. Order </th>
-                                        <th> Tanggal Transaksi </th>
-                                        <th> Total Harga </th>
-                                        <th> Kupon </th>
-                                        <th> Status Transaksi </th>
-                                        <th> Aksi </th>
+                                        <th> Pengguna </th>
+                                        <th> Produk </th>
+                                        <th> Jumlah </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($data as $item)
                                     <tr>
                                         <td>{{ $no++ }}</td>
-                                        <td> {{ $item->no_order }} </td>
-                                        <td> {{ $item->tanggal_transaksi }} </td>
-                                        <td> {{ $item->total_harga_transaksi }} </td>
-                                        <td> {{ ($item->kupon) ? $item->kupon : '-' }} </td>
-                                        <td>
-                                            @if($item->status_transaksi == 0)
-                                            <label class="badge badge-gradient-warning">Menunggu Konfirmasi</label>
-                                            @elseif($item->status_transaksi == 1)
-                                            <label class="badge badge-gradient-success">Approve</label>
-                                            @else
-                                            <label class="badge badge-gradient-primary">Selesai</label>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <button type="button" data-item="{{ json_encode($item) }}" onclick="edit(this)" class="btn btn-primary btn-rounded btn-sm"><i class="mdi mdi-border-color"></i></button>
-                                            <button type="button" onclick="view({{ $item->id }})" class="btn btn-warning btn-rounded btn-sm"><i class="mdi mdi-information"></i></button>
-                                            <button type="button" onclick="hapus({{ $item->id }})" class="btn btn-danger btn-rounded btn-sm"><i class="mdi mdi-delete"></i></button>
-                                        </td>
+                                        <td> {{ $item->RelasiUser->name }} </td>
+                                        <td> {{ $item->RelasiProduk->produk }} </td>
+                                        <td> {{ $item->jumlah }} </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -73,23 +55,29 @@
     </div>
 
     {{-- Modal Pop Up --}}
-    <div class="modal fade" id="EditModal" tabindex="-1" aria-labelledby="EditModalLabel" aria-hidden="true">
+    <div class="modal fade" id="TambahModal" tabindex="-1" aria-labelledby="TambahModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="EditModalLabel">Konfirmasi Pembayaran</h5>
+                    <h5 class="modal-title" id="TambahModalLabel">Tambah Banner</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="POST" action="{{ route('transaksi.update') }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('master-banner.store') }}" enctype="multipart/form-data">
                 @csrf
                     <div class="modal-body">
-                        <input type="hidden" id="e_id" name="id">
                         <div class="form-group">
-                            <label for="e_status_transaksi">Status Transaksi</label>
-                            <select class="form-control" id="e_status_transaksi" name="status_transaksi" required>
-                                <option value="0">Menunggu Konfirmasi</option>
-                                <option value="1">Approve</option>
-                                <option value="2">Selesai</option>
+                            <label for="keterangan">Keterangan</label>
+                            <input type="text" class="form-control" id="keterangan" name="keterangan" maxlength="255" placeholder="..." required>
+                        </div>
+                        <div class="form-group">
+                            <label for="gambar">Gambar</label>
+                            <input type="file" class="form-control" id="gambar" name="gambar" accept=".jpg,.jpeg,.png" placeholder="..." required>
+                        </div>
+                        <div class="form-group">
+                            <label for="status">Status</label>
+                            <select class="form-control" id="status" name="status" required>
+                                <option value="0">TIDAK AKTIF</option>
+                                <option value="1">AKTIF</option>
                             </select>
                         </div>
                     </div>
@@ -101,36 +89,43 @@
             </div>
         </div>
     </div>
-    
-    <div class="modal fade" id="DetailModal" tabindex="-1" aria-labelledby="DetailModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+
+    <div class="modal fade" id="EditModal" tabindex="-1" aria-labelledby="EditModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="DetailModalLabel">Detail Produk</h5>
+                    <h5 class="modal-title" id="EditModalLabel">Edit Banner</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="POST" action="{{ route('transaksi.update') }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('master-banner.update') }}" enctype="multipart/form-data">
                 @csrf
                     <div class="modal-body">
-                        <div class="table-responsive">
-                            <table class="table" id="detail-table-id">
-                                <thead>
-                                    <tr>
-                                        <th> No. </th>
-                                        <th> Produk </th>
-                                        <th> Harga </th>
-                                        <th> Jumlah </th>
-                                        <th> Total Harga </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                </tbody>
-                            </table>
+                        <input type="hidden" id="e_id" name="id">
+                        <div class="form-group">
+                            <label for="keterangan">Keterangan</label>
+                            <input type="text" class="form-control" id="e_keterangan" name="keterangan" maxlength="255" placeholder="..." required>
+                        </div>
+                        <div class="form-group">
+                            <label for="gambar">
+                                Gambar
+                                <a href="#" id="gambar_sebelumnya" target="_blank" class="btn btn-sm btn-dark btn-lg btn-block">
+                                    <i class="mdi mdi-folder-image"></i>
+                                </a>
+                            </label>
+                            <input type="file" class="form-control" id="e_gambar" name="gambar" accept=".jpg,.jpeg,.png" placeholder="...">
+                            
+                        </div>
+                        <div class="form-group">
+                            <label for="status">Status</label>
+                            <select class="form-control" id="e_status" name="status" required>
+                                <option value="0">TIDAK AKTIF</option>
+                                <option value="1">AKTIF</option>
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">TUTUP</button>
+                        <button type="submit" class="btn btn-primary">SIMPAN</button>
                     </div>
                 </form>
             </div>
@@ -146,35 +141,13 @@
 
     function edit(obj){
         var item = $(obj).data('item');
-
+        console.log(item);
         $('#e_id').val(item.id);
-        $('#e_status_transaksi').val(item.status_transaksi);
+        $('#e_keterangan').val(item.keterangan);
+        $('#gambar_sebelumnya').attr('href', '{{ asset("img_banner") }}/'+item.gambar);
+        $('#e_status').val(item.status);
 
         $('#EditModal').modal('show');
-    }
-
-    function view(id){
-        $.ajax({
-            type: 'GET',
-            url: "{{ route('transaksi.detailProduk') }}",
-            data: {
-                id: id
-            },
-            success: function(response){
-                var dataTable = $('#detail-table-id').DataTable();
-                $.each(response, function(i, item) {
-                    var no = i + 1;
-                    dataTable.row.add([
-                        no,
-                        item.relasi_produk.produk,
-                        item.relasi_produk.harga,
-                        item.jumlah,
-                        item.total_harga
-                    ]).draw()
-                })
-            }
-        });
-        $('#DetailModal').modal('show');
     }
 
     function hapus(id) {

@@ -51,6 +51,12 @@
                 <i class="mdi mdi-flower menu-icon"></i>
             </a>
         </li>
+        <li class="nav-item @if(Request::segment(1) == 'checkout') active @endif" style="display:none;">
+            <a class="nav-link" href="{{ route('checkout.index') }}">
+                <span class="menu-title">Checkout</span>
+                <i class="mdi mdi-cart menu-icon"></i>
+            </a>
+        </li>
         <li class="nav-item @if(Request::segment(1) == 'transaksi') active @endif">
             <a class="nav-link" href="{{ route('transaksi.index') }}">
                 <span class="menu-title">Transaksi</span>
@@ -64,7 +70,7 @@
             </a>
         </li>
         <li class="nav-item @if(Request::segment(1) == 'produk-terjual') active @endif">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{{ route('produk-terjual.index') }}">
                 <span class="menu-title">Produk Terjual</span>
                 <i class="mdi mdi-margin menu-icon"></i>
             </a>

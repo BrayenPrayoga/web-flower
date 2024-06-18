@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MasterBannerController;
 use App\Http\Controllers\UsersController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\KonfirmasiPembayaranController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\MasterKuponController;
+use App\Http\Controllers\ProdukTerjualController;
 use App\Http\Controllers\TransaksiController;
 
 /*
@@ -29,6 +31,8 @@ Route::get('/', function () {
 
 Route::post('login', [AuthController::class,'login'])->name('login');
 Route::get('logout', [AuthController::class,'logout'])->name('logout');
+Route::get('reset-password/{id}', [AuthController::class,'resetPassword'])->name('reset-password');
+Route::post('update-password', [AuthController::class,'updatePassword'])->name('update-password');
 
 Route::middleware(['auth:admin'])->group(function () {
     Route::group(['prefix'=>'dashboard','as'=>'dashboard.'], function(){
@@ -81,16 +85,29 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::get('delete/{id}', [ProdukController::class,'delete'])->name('delete');
     });
     
+    // Checkout
+    Route::group(['prefix'=>'checkout','as'=>'checkout.'], function(){
+        Route::get('/', [CheckoutController::class,'index'])->name('index');
+    });
+    
     // Transaksi
     Route::group(['prefix'=>'transaksi','as'=>'transaksi.'], function(){
         Route::get('/', [TransaksiController::class,'index'])->name('index');
         Route::post('store', [TransaksiController::class,'store'])->name('store');
         Route::post('update', [TransaksiController::class,'update'])->name('update');
+        Route::get('delete/{id}', [TransaksiController::class,'delete'])->name('delete');
+        Route::get('detail-produk', [TransaksiController::class,'detailProduk'])->name('detailProduk');
     });
     
     // Konfirmasi Pembayaran
     Route::group(['prefix'=>'konfirmasi-pembarayan','as'=>'konfirmasi-pembarayan.'], function(){
         Route::get('/', [KonfirmasiPembayaranController::class,'index'])->name('index');
         Route::post('store', [KonfirmasiPembayaranController::class,'store'])->name('store');
+    });
+    
+    // Produk Terjual
+    Route::group(['prefix'=>'produk-terjual','as'=>'produk-terjual.'], function(){
+        Route::get('/', [ProdukTerjualController::class,'index'])->name('index');
+        Route::post('store', [ProdukTerjualController::class,'store'])->name('store');
     });
 });

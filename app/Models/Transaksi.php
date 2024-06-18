@@ -81,4 +81,33 @@ class Transaksi extends Model
             return ['message' => 'error','data' => $e];
         }
     }
+
+    public static function updateModel($request){
+        try{
+            date_default_timezone_set('Asia/Jakarta');
+
+            $request->validate([
+                'id'                =>'required',
+                'status_transaksi'  =>'required'
+            ]);
+            $transaksi = Transaksi::where('id', $request->id)->update(['status_transaksi'=>$request->status_transaksi]);
+
+            return ['message' => 'success', 'data' => $transaksi];
+        }catch(Exception $e){
+            return ['message' => 'error','data' => $e];
+        }
+    }
+    
+    public static function deleteModal($id){
+        try{
+            $parent = Transaksi::where('id', $id)->delete();
+            if($parent){
+                DetailTransaksi::where('id_transaksi', $id)->delete();
+            }
+
+            return ['message' => 'success', 'data' => 'Berhasil Hapus'];
+        }catch(Exception $e){
+            return ['message' => 'error','data' => $e];
+        }
+    }
 }

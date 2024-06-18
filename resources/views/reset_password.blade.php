@@ -30,8 +30,7 @@
                             <div class="brand-logo">
                                 <img src="{{ asset('assets/images/logo.png') }}" style="width:200px;">
                             </div>
-                            <h4>Selamat Datang Di Portal Flower</h4>
-                            <h6 class="font-weight-light">Login Untuk Melanjutkan.</h6>
+                            <h6 class="font-weight-light">Reset Password.</h6>
                             <div id="alert-div">
                                 @if (count($errors) > 0)
                                     @foreach ($errors->all() as $error)
@@ -41,18 +40,23 @@
                                     @endforeach
                                 @endif
                             </div>
-                            <form class="pt-3" method="POST" action="{{ route('login') }}">
+                            <form class="pt-3" method="POST" action="{{ route('update-password') }}">
                                 @csrf
+                                <input type="hidden" id="id" name="id" value="{{ $user->id }}">
                                 <div class="form-group">
                                     <input type="email" class="form-control form-control-lg" id="email" name="email"
-                                        autocomplete="off" placeholder="Email">
+                                        autocomplete="off" value="{{ $user->email }}" readonly>
                                 </div>
                                 <div class="form-group">
                                     <input type="password" class="form-control form-control-lg"
-                                        id="password" name="password" autocomplete="off" placeholder="Password">
+                                        id="password" name="password" autocomplete="off" placeholder="New Password">
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" class="form-control form-control-lg"
+                                        id="confirm_password" name="confirm_password" autocomplete="off" placeholder="Confirm Password">
                                 </div>
                                 <div class="mt-3">
-                                    <button type="submit" class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn">LOGIN</button>
+                                    <button type="submit" class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn">RESET</button>
                                 </div>
                                 {{-- <div class="my-2 d-flex justify-content-between align-items-center">
                                     <div class="form-check">
@@ -80,38 +84,10 @@
     <script src="{{ asset('assets/js/off-canvas.js') }}"></script>
     <script src="{{ asset('assets/js/hoverable-collapse.js') }}"></script>
     <script src="{{ asset('assets/js/misc.js') }}"></script>
-    <!-- Sweet Alert -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         setTimeout(function() {document.getElementById('alert-div').innerHTML='';},5000);
     </script>
     <!-- endinject -->
-    @if(Session::has('success'))
-    <script type="text/javascript">
-        Swal.fire({
-        icon: 'success',
-        text: '{{Session::get("success")}}',
-        showConfirmButton: false,
-        timer: 1500
-    });
-    </script>
-    <?php
-        Session::forget('success');
-    ?>
-    @endif
-    @if(Session::has('error'))
-    <script type="text/javascript">
-        Swal.fire({
-        icon: 'error',
-        text: '{{Session::get("error")}}',
-        showConfirmButton: false,
-        timer: 1500
-    });
-    </script>
-    <?php
-        Session::forget('error');
-    ?>
-    @endif
 </body>
 
 </html>

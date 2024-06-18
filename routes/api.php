@@ -4,6 +4,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\CheckoutController;
 use App\Http\Controllers\API\KategoriProdukController;
 use App\Http\Controllers\API\KonfirmasiPembayaranController;
 use App\Http\Controllers\API\MasterBannerController;
@@ -25,6 +26,7 @@ use App\Http\Controllers\API\UsersController;
 
 Route::post('login', [AuthController::class,'login'])->name('login');
 Route::post('logout', [AuthController::class,'logout'])->name('logout');
+Route::get('forget-password', [AuthController::class,'kirimLupaPassword'])->name('forget-password');
 
 Route::group(['prefix'=>'users','as'=>'users.'], function(){
     Route::post('store', [UsersController::class,'store'])->name('store');
@@ -56,6 +58,11 @@ Route::middleware(['auth:api'])->group(function () {
     Route::group(['prefix'=>'konfirmasi-pembarayan','as'=>'konfirmasi-pembarayan.'], function(){
         Route::get('get-konfirmasi-pembarayan', [KonfirmasiPembayaranController::class,'index'])->name('index');
         Route::post('store', [KonfirmasiPembayaranController::class,'store'])->name('store');
+    });
+    
+    Route::group(['prefix'=>'checkout','as'=>'checkout.'], function(){
+        Route::get('get-checkout', [CheckoutController::class,'index'])->name('index');
+        Route::post('store', [CheckoutController::class,'store'])->name('store');
     });
     
     Route::group(['prefix'=>'transaksi','as'=>'transaksi.'], function(){

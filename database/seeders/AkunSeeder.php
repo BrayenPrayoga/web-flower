@@ -20,14 +20,14 @@ class AkunSeeder extends Seeder
                 'name'      =>'admin',
                 'email'     =>'admin@gmail.com',
                 'password'  => Hash::make('Admin1234%'),
-                'status'    => 0,
+                'status'    => 2,
                 'created_at'=> date('Y-m-d H:i:s')
             ],
             [
                 'name'      =>'brayen',
                 'email'     =>'brayen@gmail.com',
                 'password'  => Hash::make('Admin1234%'),
-                'status'    => 0,
+                'status'    => 2,
                 'created_at'=> date('Y-m-d H:i:s')
             ],
         ];

@@ -22,6 +22,7 @@ class Produk extends Model
 
             $response = [];
             foreach($produk as $item){
+                $data['id_produk'] = $item->id;
                 $data['produk'] = $item->produk;
                 $data['gambar'] = 'img_produk/'.$item->gambar;
                 $data['deskripsi'] = $item->deskripsi;

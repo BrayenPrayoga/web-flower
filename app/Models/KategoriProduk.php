@@ -24,6 +24,7 @@ class KategoriProduk extends Model
                 $data['kategori'] = $item->kategori;
 
                 foreach($item->RelasiProduk as $val){
+                    $produk['id_produk'] = $val->id;
                     $produk['produk'] = $val->produk;
                     $produk['gambar'] = 'img_produk/'.$val->gambar;
                     $produk['deskripsi'] = $val->deskripsi;

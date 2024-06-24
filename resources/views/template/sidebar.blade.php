@@ -27,6 +27,12 @@
                 <i class="mdi mdi-account menu-icon"></i>
             </a>
         </li>
+        <li class="nav-item @if(Request::segment(1) == 'master-bank') active @endif">
+            <a class="nav-link" href="{{ route('master-bank.index') }}">
+                <span class="menu-title">Master Bank</span>
+                <i class="mdi mdi-bank menu-icon"></i>
+            </a>
+        </li>
         <li class="nav-item @if(Request::segment(1) == 'master-banner') active @endif">
             <a class="nav-link" href="{{ route('master-banner.index') }}">
                 <span class="menu-title">Master Banner</span>

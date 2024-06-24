@@ -40,4 +40,31 @@ class CheckoutController extends Controller
             ];
         }
     }
+    
+    public function update(Request $request){
+        $response = Checkout::updateModel($request);
+        
+        if($response['message'] == 'success'){
+            return responseData($response['data']);
+        }else{
+            return [
+                "meta" => ['code' => EC::HTTP_BAD_GATEWAY, 'message' => EM::HTTP_INTERNAL_SERVER_ERROR],
+                "data" => $response['data']
+            ];
+        }
+    }
+    
+    public function delete(){
+        $id = isset($_GET['id']) ? $_GET['id'] : null;
+        $response = Checkout::deleteModal($id);
+        
+        if($response['message'] == 'success'){
+            return responseData($response['data']);
+        }else{
+            return [
+                "meta" => ['code' => EC::HTTP_BAD_GATEWAY, 'message' => EM::HTTP_INTERNAL_SERVER_ERROR],
+                "data" => $response['data']
+            ];
+        }
+    }
 }

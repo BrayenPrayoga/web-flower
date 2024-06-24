@@ -14,10 +14,14 @@ class Transaksi extends Model
     
     protected $guarded = [];
 
+    public function RelasiDetailTransaksi(){
+        return $this->hasMany(DetailTransaksi::class, 'id_transaksi','id');
+    }
+
     public static function getModel(){
         try{
             $no_order = isset($_GET['no_order']) ? $_GET['no_order'] : null;
-            $konfirmasi = Transaksi::when($no_order, function($q, $no_order){
+            $konfirmasi = Transaksi::where('id_users' ,auth::user()->id)->with('RelasiDetailTransaksi')->when($no_order, function($q, $no_order){
                 $q->where('no_order', $no_order);
             })->get();
 
@@ -32,7 +36,16 @@ class Transaksi extends Model
                 $data['tanggal'] = $item->tanggal;
                 $data['bukti'] = 'img_bukti/'.$item->bukti;
 
+                foreach($item->RelasiDetailTransaksi as $val){
+                    $detail['id_produk'] = $val->id_produk;
+                    $detail['produk'] = $val->RelasiProduk->produk;
+                    $detail['jumlah'] = $val->jumlah;
+                    $detail['total_harga'] = $val->total_harga;
+
+                    $data['detail_transaksi'][] = $detail;
+                }
                 array_push($response, $data);
+                $data['detail_transaksi'] = [];
             }
 
             return ['message' => 'success', 'data' => $response];
@@ -46,13 +59,26 @@ class Transaksi extends Model
             date_default_timezone_set('Asia/Jakarta');
 
             $request->validate([
-                'no_order'    =>'required|max:50',
                 'total_harga'   =>'required|max:100'
             ]);
 
+            $count_transaksi = Transaksi::where('id_users', auth::user()->id)->count();
+            if($count_transaksi > 0 && $count_transaksi < 9){ 
+                $no_order = 'ZF0000'. $count_transaksi;
+            }elseif($count_transaksi > 9 && $count_transaksi < 99){ // puluhan
+                $no_order = 'ZF000'. $count_transaksi;
+            }elseif($count_transaksi > 99 && $count_transaksi < 999){ // ratusan
+                $no_order = 'ZF00'. $count_transaksi;
+            }elseif($count_transaksi > 999 && $count_transaksi < 9999){ // ribuan
+                $no_order = 'ZF0'. $count_transaksi;
+            }elseif($count_transaksi > 9999 && $count_transaksi < 99999){ // puluhan ribu
+                $no_order = 'ZF'. $count_transaksi;
+            }else{
+                $no_order = 'ZF'. $count_transaksi;
+            }
             $data = [
                 'id_users'          => auth::user()->id,
-                'no_order'          => $request->no_order,
+                'no_order'          => $no_order,
                 'status_transaksi'  => 0,
                 'tanggal_transaksi' => date('Y-m-d H:i:s'),
                 'total_harga_transaksi' => $request->total_harga_transaksi,

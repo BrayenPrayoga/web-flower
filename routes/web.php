@@ -8,6 +8,7 @@ use App\Http\Controllers\MasterBannerController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\KategoriProdukController;
 use App\Http\Controllers\KonfirmasiPembayaranController;
+use App\Http\Controllers\MasterBankController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\MasterKuponController;
@@ -51,6 +52,14 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::post('store', [UsersController::class,'store'])->name('store');
         Route::post('update', [UsersController::class,'update'])->name('update');
         Route::get('delete/{id}', [UsersController::class,'delete'])->name('delete');
+    });
+
+    // Master Bank
+    Route::group(['prefix'=>'master-bank','as'=>'master-bank.'], function(){
+        Route::get('/', [MasterBankController::class,'index'])->name('index');
+        Route::post('store', [MasterBankController::class,'store'])->name('store');
+        Route::post('update', [MasterBankController::class,'update'])->name('update');
+        Route::get('delete/{id}', [MasterBankController::class,'delete'])->name('delete');
     });
     
     // Master Banner

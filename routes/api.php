@@ -7,6 +7,7 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CheckoutController;
 use App\Http\Controllers\API\KategoriProdukController;
 use App\Http\Controllers\API\KonfirmasiPembayaranController;
+use App\Http\Controllers\API\MasterBankController;
 use App\Http\Controllers\API\MasterBannerController;
 use App\Http\Controllers\API\MasterKuponController;
 use App\Http\Controllers\API\ProdukController;
@@ -39,6 +40,10 @@ Route::middleware(['auth:api'])->group(function () {
         Route::post('update', [UsersController::class,'update'])->name('update');
     });
 
+    Route::group(['prefix'=>'master-bank','as'=>'master-bank.'], function(){
+        Route::get('get-bank', [MasterBankController::class,'index'])->name('index');
+    });
+
     Route::group(['prefix'=>'master-banner','as'=>'master-banner.'], function(){
         Route::get('get-banner', [MasterBannerController::class,'index'])->name('index');
     });
@@ -63,9 +68,12 @@ Route::middleware(['auth:api'])->group(function () {
     Route::group(['prefix'=>'checkout','as'=>'checkout.'], function(){
         Route::get('get-checkout', [CheckoutController::class,'index'])->name('index');
         Route::post('store', [CheckoutController::class,'store'])->name('store');
+        Route::post('update', [CheckoutController::class,'update'])->name('update');
+        Route::get('delete', [CheckoutController::class,'delete'])->name('delete');
     });
     
     Route::group(['prefix'=>'transaksi','as'=>'transaksi.'], function(){
+        Route::get('get-transaksi', [TransaksiController::class,'index'])->name('index');
         Route::post('store', [TransaksiController::class,'store'])->name('store');
     });
 

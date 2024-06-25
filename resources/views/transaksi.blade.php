@@ -35,6 +35,7 @@
                                         <th> Tanggal Transaksi </th>
                                         <th> Total Harga </th>
                                         <th> Kupon </th>
+                                        <th> Alamat </th>
                                         <th> Status Transaksi </th>
                                         <th> Aksi </th>
                                     </tr>
@@ -47,6 +48,7 @@
                                         <td> {{ $item->tanggal_transaksi }} </td>
                                         <td> {{ $item->total_harga_transaksi }} </td>
                                         <td> {{ ($item->kupon) ? $item->kupon : '-' }} </td>
+                                        <td> {{ $item->alamat }} </td>
                                         <td>
                                             @if($item->status_transaksi == 0)
                                             <label class="badge badge-gradient-warning">Menunggu Konfirmasi</label>

@@ -59,22 +59,25 @@ class Transaksi extends Model
             date_default_timezone_set('Asia/Jakarta');
 
             $request->validate([
-                'total_harga_transaksi'   =>'required|max:100'
+                'total_harga_transaksi'   =>'required|max:100',
+                'alamat'   =>'required'
             ]);
 
             $count_transaksi = Transaksi::where('id_users', auth::user()->id)->count();
-            if($count_transaksi > 0 && $count_transaksi < 9){ 
-                $no_order = 'ZF0000'. $count_transaksi;
+            if($count_transaksi == 0){ 
+                $no_order = 'ZF0000'. $count_transaksi + 1;
+            }elseif($count_transaksi > 0 && $count_transaksi < 9){ 
+                $no_order = 'ZF0000'. $count_transaksi + 1;
             }elseif($count_transaksi > 9 && $count_transaksi < 99){ // puluhan
-                $no_order = 'ZF000'. $count_transaksi;
+                $no_order = 'ZF000'. $count_transaksi + 1;
             }elseif($count_transaksi > 99 && $count_transaksi < 999){ // ratusan
-                $no_order = 'ZF00'. $count_transaksi;
+                $no_order = 'ZF00'. $count_transaksi + 1;
             }elseif($count_transaksi > 999 && $count_transaksi < 9999){ // ribuan
-                $no_order = 'ZF0'. $count_transaksi;
+                $no_order = 'ZF0'. $count_transaksi + 1;
             }elseif($count_transaksi > 9999 && $count_transaksi < 99999){ // puluhan ribu
-                $no_order = 'ZF'. $count_transaksi;
+                $no_order = 'ZF'. $count_transaksi + 1;
             }else{
-                $no_order = 'ZF'. $count_transaksi;
+                $no_order = 'ZF'. $count_transaksi + 1;
             }
             $data = [
                 'id_users'          => auth::user()->id,
@@ -83,6 +86,7 @@ class Transaksi extends Model
                 'tanggal_transaksi' => date('Y-m-d H:i:s'),
                 'total_harga_transaksi' => $request->total_harga_transaksi,
                 'id_kupon'          => $request->id_kupon,
+                'alamat'          => $request->alamat,
                 'created_at'        => date('Y-m-d H:i:s')
             ];
             $store = Transaksi::create($data);
@@ -90,6 +94,7 @@ class Transaksi extends Model
             $countProduk = count($request->id_produk);
             $i = 0;
             for($i ; $i < $countProduk ; $i++){
+                Checkout::where('id_users', auth::user()->id)->where('id_produk', $request->id_produk[$i])->delete();
                 $detail =[
                     'id_transaksi'  => $store->id,
                     'id_produk'     => $request->id_produk[$i],

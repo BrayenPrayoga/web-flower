@@ -59,7 +59,7 @@ class Transaksi extends Model
             date_default_timezone_set('Asia/Jakarta');
 
             $request->validate([
-                'total_harga'   =>'required|max:100'
+                'total_harga_transaksi'   =>'required|max:100'
             ]);
 
             $count_transaksi = Transaksi::where('id_users', auth::user()->id)->count();

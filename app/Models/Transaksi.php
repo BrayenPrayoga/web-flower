@@ -25,20 +25,22 @@ class Transaksi extends Model
     public static function getModel(){
         try{
             $no_order = isset($_GET['no_order']) ? $_GET['no_order'] : null;
-            $konfirmasi = Transaksi::where('id_users' ,auth::user()->id)->with('RelasiDetailTransaksi','RelasiKupon')->when($no_order, function($q, $no_order){
+            $status = isset($_GET['status']) ? $_GET['status'] : null;
+            $konfirmasi = Transaksi::where('id_users' ,auth::user()->id)->with('RelasiDetailTransaksi','RelasiKupon')
+            ->when($no_order, function($q, $no_order){
                 $q->where('no_order', $no_order);
+            })->when($status, function($q, $status){
+                $q->where('status_transaksi', $status);
             })->get();
 
             $response = [];
             foreach($konfirmasi as $item){
                 $data['id'] = $item->id;
                 $data['no_order'] = $item->no_order;
-                $data['bank_asal'] = $item->bank_asal;
-                $data['bank_tujuan'] = $item->bank_tujuan;
-                $data['metode'] = $item->metode;
-                $data['nominal'] = $item->nominal;
-                $data['tanggal'] = $item->tanggal;
-                $data['bukti'] = 'img_bukti/'.$item->bukti;
+                $data['status_transaksi'] = $item->status_transaksi;
+                $data['tanggal_transaksi'] = $item->tanggal_transaksi;
+                $data['total_harga_transaksi'] = $item->total_harga_transaksi;
+                $data['alamat'] = $item->alamat;
                 $data['id_kupon'] = $item->id_kupon;
                 $data['kupon'] = $item->RelasiKupon;
 

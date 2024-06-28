@@ -17,11 +17,15 @@ class Transaksi extends Model
     public function RelasiDetailTransaksi(){
         return $this->hasMany(DetailTransaksi::class, 'id_transaksi','id');
     }
+    
+    public function RelasiKupon(){
+        return $this->belongsTo(MasterKupon::class, 'id_kupon','id');
+    }
 
     public static function getModel(){
         try{
             $no_order = isset($_GET['no_order']) ? $_GET['no_order'] : null;
-            $konfirmasi = Transaksi::where('id_users' ,auth::user()->id)->with('RelasiDetailTransaksi')->when($no_order, function($q, $no_order){
+            $konfirmasi = Transaksi::where('id_users' ,auth::user()->id)->with('RelasiDetailTransaksi','RelasiKupon')->when($no_order, function($q, $no_order){
                 $q->where('no_order', $no_order);
             })->get();
 
@@ -35,10 +39,13 @@ class Transaksi extends Model
                 $data['nominal'] = $item->nominal;
                 $data['tanggal'] = $item->tanggal;
                 $data['bukti'] = 'img_bukti/'.$item->bukti;
+                $data['id_kupon'] = $item->id_kupon;
+                $data['kupon'] = $item->RelasiKupon;
 
                 foreach($item->RelasiDetailTransaksi as $val){
                     $detail['id_produk'] = $val->id_produk;
                     $detail['produk'] = $val->RelasiProduk->produk;
+                    $detail['gambar'] = 'img_produk/'.$val->RelasiProduk->gambar;
                     $detail['jumlah'] = $val->jumlah;
                     $detail['total_harga'] = $val->total_harga;
 

@@ -54,8 +54,10 @@
                                             <label class="badge badge-gradient-warning">Menunggu Konfirmasi</label>
                                             @elseif($item->status_transaksi == 1)
                                             <label class="badge badge-gradient-success">Approve</label>
-                                            @else
+                                            @elseif($item->status_transaksi == 2)
                                             <label class="badge badge-gradient-primary">Selesai</label>
+                                            @else
+                                            <label class="badge badge-gradient-danger" style="cursor:pointer;" onclick="viewKeterangan('{{ $item->keterangan }}')">Tolak</label>
                                             @endif
                                         </td>
                                         <td>
@@ -92,7 +94,12 @@
                                 <option value="0">Menunggu Konfirmasi</option>
                                 <option value="1">Approve</option>
                                 <option value="2">Selesai</option>
+                                <option value="3">Tolak</option>
                             </select>
+                        </div>
+                        <div class="form-group" id="group_keterangan" style="display:none;">
+                            <label for="e_keterangan">Keterangan</label>
+                            <textarea rows="4" cols="4" class="form-control" id="e_keterangan" name="keterangan"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -144,6 +151,16 @@
 <script>
     $(document).ready( function () {
         $('#table-id').DataTable();
+
+        $('#e_status_transaksi').change(function(){
+            if($('#e_status_transaksi').val() == 3){
+                $('#group_keterangan').show();
+                $('#e_keterangan').prop('required',true);
+            }else{
+                $('#group_keterangan').hide();
+                $('#e_keterangan').prop('required',false);
+            }
+        })
     });
 
     function edit(obj){
@@ -200,6 +217,14 @@
                     timer: 1500
                 });
             }
+        });
+    }
+
+    function viewKeterangan(keterangan){
+        Swal.fire({
+            title: "Informasi",
+            text: keterangan,
+            icon: "info"
         });
     }
 </script>

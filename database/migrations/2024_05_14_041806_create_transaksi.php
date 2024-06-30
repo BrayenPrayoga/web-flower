@@ -20,6 +20,7 @@ return new class extends Migration
             $table->decimal('total_harga_transaksi',12,2)->nullable();
             $table->integer('id_kupon')->nullable();
             $table->text('alamat')->nullable();
+            $table->text('keterangan')->nullable();
             $table->timestamps();
         });
     }

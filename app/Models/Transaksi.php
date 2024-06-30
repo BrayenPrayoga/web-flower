@@ -112,6 +112,11 @@ class Transaksi extends Model
                     'created_at'    => date('Y-m-d H:i:s')
                 ];
                 DetailTransaksi::create($detail);
+
+                //Kurangin Stok produk
+                $produk = Produk::where('id', $request->id_produk[$i])->first();
+                $stok = $produk->stok - $request->jumlah[$i];
+                Produk::where('id', $request->id_produk[$i])->update(['stok'=>$stok]);
             }
             $data = $store;
             $data['detail'] = DetailTransaksi::where('id_transaksi', $store->id)->get();
@@ -130,7 +135,20 @@ class Transaksi extends Model
                 'id'                =>'required',
                 'status_transaksi'  =>'required'
             ]);
-            $transaksi = Transaksi::where('id', $request->id)->update(['status_transaksi'=>$request->status_transaksi]);
+            $transaksi = Transaksi::where('id', $request->id)->update([
+                'status_transaksi' => $request->status_transaksi,
+                'keterangan'       => $request->keterangan
+            ]);
+
+            //Tambahin Stok produk
+            $transaksi = Transaksi::with('RelasiDetailTransaksi')->where('id', $request->id)->get();
+            foreach($transaksi as $item){
+                foreach($item->RelasiDetailTransaksi as $val){
+                    $produk = Produk::where('id', $val->id_produk)->first();
+                    $stok = $produk->stok + $val->jumlah;
+                    Produk::where('id', $val->id_produk)->update(['stok'=>$stok]);
+                }
+            }
 
             return ['message' => 'success', 'data' => $transaksi];
         }catch(Exception $e){

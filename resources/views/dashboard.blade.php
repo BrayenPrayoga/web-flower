@@ -52,6 +52,17 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-md-12 stretch-card">
+                <div class="card">
+                    <div class="card-body" style="padding:1rem 2.5rem!important;">
+                        <select class="form-control select2" name="tahun" id="tahun">
+                            @for($Year ; $Year > $startYear ; $Year--)
+                            <option value="{{ $Year }}">{{ $Year }}</option>
+                            @endfor
+                        </select>
+                    </div>
+                </div>
+            </div>
             <div class="col-md-7 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
@@ -71,13 +82,34 @@
 @endsection
 
 @section('javascript')
+<!-- Select2 -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
     $(document).ready( function () {
-        chartPie();
-        chartColumn();
+        $('.select2').select2();
+        defaultChartColumn();
+        defaultchartPie();
     });
 
-    function chartPie(){
+    $('#tahun').change(function(){
+        defaultChartColumn();
+        defaultchartPie();
+    });
+    
+    function defaultchartPie(){
+        var tahun = $('#tahun').val();
+        $.ajax({
+            type: 'GET',
+            url: "{{ route('dashboard.chartPie') }}",
+            data : {tahun:tahun},
+            success: function(response){
+                chartPie(response);
+            }
+        });
+    }
+
+    function chartPie(response){
         Highcharts.chart('chart-pie', {
             chart: {
                 type: 'pie',
@@ -87,12 +119,8 @@
                 }
             },
             title: {
-                text: 'Beijing 2022 gold medals by country',
-                align: 'left'
-            },
-            subtitle: {
-                text: '3D donut in Highcharts',
-                align: 'left'
+                text: 'Persentase Penjualan Produk Tahun '+response.tahun,
+                align: 'center'
             },
             plotOptions: {
                 pie: {
@@ -100,94 +128,69 @@
                     depth: 45
                 }
             },
+            credits: {
+                enabled: false
+            },
             series: [{
-                name: 'Medals',
-                data: [
-                    ['Norway', 16],
-                    ['Germany', 12],
-                    ['USA', 8],
-                    ['Sweden', 8],
-                    ['Netherlands', 8],
-                    ['ROC', 6],
-                    ['Austria', 7],
-                    ['Canada', 4],
-                    ['Japan', 3]
-
-                ]
+                name: 'Persentase (%)',
+                data: response.series
             }]
         });
     }
 
-    function chartColumn(){
-        Highcharts.chart('chart-column', {
+    function defaultChartColumn(){
+        var tahun = $('#tahun').val();
+        $.ajax({
+            type: 'GET',
+            url: "{{ route('dashboard.chartColumn') }}",
+            data : {tahun:tahun},
+            success: function(response){
+                chartColumn(response);
+            }
+        });
+    }
+    function chartColumn(response){
+        Highcharts.chart('chart-column',{
             chart: {
                 type: 'column',
                 options3d: {
                     enabled: true,
                     alpha: 15,
                     beta: 15,
-                    viewDistance: 25,
-                    depth: 40
+                    depth: 50,
+                    viewDistance: 25
                 }
             },
-
-            title: {
-                text: ' Electricity production in countries, grouped by continent',
-                align: 'left'
-            },
-
             xAxis: {
-                labels: {
-                    skew3d: true,
-                    style: {
-                        fontSize: '16px'
-                    }
-                }
+                categories: response.category
             },
-
             yAxis: {
-                allowDecimals: false,
-                min: 0,
                 title: {
-                    text: 'TWh',
-                    skew3d: true,
-                    style: {
-                        fontSize: '16px'
-                    }
+                    enabled: false
                 }
             },
-
             tooltip: {
                 headerFormat: '<b>{point.key}</b><br>',
-                pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y} / {point.stackTotal}'
+                pointFormat: 'Jumlah: {point.y}'
             },
-
+            title: {
+                text: 'Jumlah Penjualan Produk Tahun '+response.tahun,
+                align: 'center'
+            },
+            legend: {
+                enabled: false
+            },
             plotOptions: {
-                series: {
-                    pointStart: 2016
-                },
                 column: {
-                    stacking: 'normal',
-                    depth: 40
+                    depth: 25
                 }
             },
-
+            credits: {
+                enabled: false
+            },
             series: [{
-                name: 'South Korea',
-                data: [563, 567, 590, 582, 571],
-                stack: 'Asia'
-            }, {
-                name: 'Germany',
-                data: [650, 654, 643, 612, 572],
-                stack: 'Europe'
-            }, {
-                name: 'Saudi Arabia',
-                data: [368, 378, 378, 367, 363],
-                stack: 'Asia'
-            }, {
-                name: 'France',
-                data: [564, 562, 582, 571, 533],
-                stack: 'Europe'
+                data: response.series,
+                colorByPoint: true
             }]
         });
     }

@@ -38,6 +38,8 @@ Route::post('update-password', [AuthController::class,'updatePassword'])->name('
 Route::middleware(['auth:admin'])->group(function () {
     Route::group(['prefix'=>'dashboard','as'=>'dashboard.'], function(){
         Route::get('/', [DashboardController::class,'index'])->name('index');
+        Route::get('chart-column', [DashboardController::class,'chartColumn'])->name('chartColumn');
+        Route::get('chart-pie', [DashboardController::class,'chartPie'])->name('chartPie');
     });
 
     // Profil

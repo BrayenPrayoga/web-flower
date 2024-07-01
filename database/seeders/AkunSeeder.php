@@ -26,7 +26,8 @@ class AkunSeeder extends Seeder
             [
                 'name'      =>'brayen',
                 'email'     =>'brayen@gmail.com',
-                'password'  => Hash::make('Admin1234%'),
+                // 'password'  => Hash::make('Admin1234%'),
+                'password'  => Hash::make('admin123'),
                 'status'    => 2,
                 'created_at'=> date('Y-m-d H:i:s')
             ],
